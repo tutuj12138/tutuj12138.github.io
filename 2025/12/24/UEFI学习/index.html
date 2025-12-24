@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="UEFI 学习UEFI简介直接百度，很多资料 EDK2EDK2 github一款现代、功能丰富的跨平台固件开发 EDK2 编译 我的环境  VS2022 Python 3.14 ASL 默认安装在C 盘，懒得修改配置 NASM 默认安装在C 盘，懒得修改配置  qemu 10.1.93 (用于调试) IDA 9.0 (用于调试)   编译EDK2  clone : git clone https:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UEFI学习">
+<meta property="og:url" content="http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="tutuj 的摸鱼小站">
+<meta property="og:description" content="UEFI 学习UEFI简介直接百度，很多资料 EDK2EDK2 github一款现代、功能丰富的跨平台固件开发 EDK2 编译 我的环境  VS2022 Python 3.14 ASL 默认安装在C 盘，懒得修改配置 NASM 默认安装在C 盘，懒得修改配置  qemu 10.1.93 (用于调试) IDA 9.0 (用于调试)   编译EDK2  clone : git clone https:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//a.png">
+<meta property="og:image" content="http://example.com/.com//b.png">
+<meta property="og:image" content="http://example.com/.com//c.png">
+<meta property="og:image" content="http://example.com/.com//d.png">
+<meta property="og:image" content="http://example.com/.com//e.png">
+<meta property="og:image" content="http://example.com/.com//f.png">
+<meta property="og:image" content="http://example.com/.com//g.png">
+<meta property="og:image" content="http://example.com/.com//h.png">
+<meta property="og:image" content="http://example.com/.com//i.png">
+<meta property="og:image" content="http://example.com/.com//j.png">
+<meta property="og:image" content="http://example.com/.com//k.png">
+<meta property="og:image" content="http://example.com/.com//l.png">
+<meta property="og:image" content="http://example.com/.com//m.png">
+<meta property="og:image" content="http://example.com/.com//n.png">
+<meta property="og:image" content="http://example.com/.com//o.png">
+<meta property="og:image" content="http://example.com/.com//p.png">
+<meta property="og:image" content="http://example.com/.com//q.png">
+<meta property="article:published_time" content="2025-12-24T13:44:38.000Z">
+<meta property="article:modified_time" content="2025-12-24T14:17:53.898Z">
+<meta property="article:author" content="tutuj">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//a.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>UEFI学习</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/tutuj12138">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&text=UEFI学习"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&is_video=false&description=UEFI学习"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=UEFI学习&body=Check out this article: http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&name=UEFI学习&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&t=UEFI学习"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UEFI-%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">UEFI 学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UEFI%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">UEFI简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EDK2"><span class="toc-number">1.2.</span> <span class="toc-text">EDK2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EDK2-%E7%BC%96%E8%AF%91"><span class="toc-number">1.2.1.</span> <span class="toc-text">EDK2 编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EDK2-%E5%BC%80%E5%8F%91"><span class="toc-number">1.2.2.</span> <span class="toc-text">EDK2 开发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#inf-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">.inf 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dsc-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">.dsc 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dec-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">.dec 文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Voyager"><span class="toc-number">1.2.3.</span> <span class="toc-text">Voyager</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VisualUefi"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">VisualUefi</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Voyager-1"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">Voyager</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        UEFI学习
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">tutuj</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-24T13:44:38.000Z" class="dt-published" itemprop="datePublished">2025-12-24</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="UEFI-学习"><a href="#UEFI-学习" class="headerlink" title="UEFI 学习"></a>UEFI 学习</h1><h2 id="UEFI简介"><a href="#UEFI简介" class="headerlink" title="UEFI简介"></a>UEFI简介</h2><p>直接百度，很多资料</p>
+<h2 id="EDK2"><a href="#EDK2" class="headerlink" title="EDK2"></a>EDK2</h2><p><a target="_blank" rel="noopener" href="https://github.com/tianocore/edk2">EDK2 github</a><br>一款现代、功能丰富的跨平台固件开发</p>
+<h3 id="EDK2-编译"><a href="#EDK2-编译" class="headerlink" title="EDK2 编译"></a>EDK2 编译</h3><ol>
+<li><p>我的环境</p>
+<ul>
+<li>VS2022</li>
+<li>Python 3.14</li>
+<li><a target="_blank" rel="noopener" href="https://acpica.org/sites/acpica/files/iasl-win-20200717.zip">ASL</a> <em>默认安装在C 盘，懒得修改配置</em></li>
+<li><a target="_blank" rel="noopener" href="https://www.nasm.us/pub/nasm/releasebuilds/2.15.02/win64/">NASM</a> <em>默认安装在C 盘，懒得修改配置</em> </li>
+<li>qemu 10.1.93 (用于调试)</li>
+<li>IDA 9.0 (用于调试)</li>
+</ul>
+</li>
+<li><p>编译EDK2</p>
+<ul>
+<li>clone : <code>git clone https://github.com/tianocore/edk2.git</code></li>
+<li>完整edk2 : <code>submodule update --init</code></li>
+<li><code>edksetup.bat rebuild</code></li>
+<li>修改Conf&#x2F;target.txt 以下几个配置项，按着实际的配置进行修改  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ACTIVE_PLATFORM -p 编译的包</span><br><span class="line">TARGET -b  DEBUG, RELEASE, NOOPT</span><br><span class="line">TARGET_ARCH -a IA32, X64, EBC, AARCH64,RISCV64 or LOONGARCH64</span><br><span class="line">TOOL_CHAIN_TAG -t 使用工具链</span><br></pre></td></tr></table></figure></li>
+<li>Build : <code>build</code> 当出现done则表示编译成功，将会在edk2中build文件夹相应平台中生成相应的文件<br> <img src="/2025/12/24/UEFI学习a.png" alt="a"></li>
+<li>运行模拟器 : <code>.\edk2\Build\EmulatorX64\RELEASE_VS2022\X64\WinHost.exe</code><br> <img src="/2025/12/24/UEFI学习b.png" alt="b"></li>
+</ul>
+<hr>
+<ul>
+<li>编译OVMF : OVMF（开放虚拟机固件）是使用于虚拟机上的UEFI固件。EDK2提供了相应制作虚拟机固件的方法。（以x64 为例）<br> <code>build -b RELEASE -a X64 -p .\OvmfPkg\OvmfPkgX64.dsc</code><br> <img src="/2025/12/24/UEFI学习c.png" alt="c"></li>
+<li>使用QEMU运行OVMF : <code>qemu-system-x86_64.exe -bios .\OVMF.fd</code><br> <img src="/2025/12/24/UEFI学习d.png" alt="d"></li>
+<li>以fat32映射生成的efi 产物所在路径 : <code> qemu-system-x86_64.exe -bios .\OVMF.fd -drive file=fat:rw:D:\work\project\uefi\UEFIWorkspace\edk2\Build\EmulatorX64\RELEASE_VS2022\X64,format=raw</code><br> <img src="/2025/12/24/UEFI学习e.png" alt="3"></li>
+</ul>
+</li>
+</ol>
+<h3 id="EDK2-开发"><a href="#EDK2-开发" class="headerlink" title="EDK2 开发"></a>EDK2 开发</h3><ol>
+<li><p>新建包文件夹 HelloWorldPkg，并新建必要文件</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HelloWorldPkg</span><br><span class="line">--HelloWorld.c 源码</span><br><span class="line">--HelloWorld.inf 模块工程文件，用于编译模块使用</span><br><span class="line">--HelloWorldPkg.dsc 用于编译包使用</span><br><span class="line">--HelloWorldPkg.dec (可选)定义了公开的数据和接口，供其他模块使用</span><br></pre></td></tr></table></figure>
+<ul>
+<li><h4 id="inf-文件"><a href="#inf-文件" class="headerlink" title=".inf 文件"></a>.inf 文件</h4><p>  <strong>必须块</strong><br>  [Defines]：定义本模块的属性变量及其他变量，这些变量可在工程文件其他块中引用<br>  [Sources]：列出本模块的所有源文件及资源文件<br>  [Packages]：列出本模块引用到的所有包的包声明文件。可能引用到的资源包括头文件、GUID、Protocol 等，这些资源都声明在包的包声明文件.dec 中<br>  [LibraryClasses]：列出本模块要链接的库模块<br>  <strong>非必须块</strong><br>  [Protocols]：列出本模块用到的Protocol<br>  [Guids]：列出本模块用到的GUID<br>  [BuildOptions]：指定编译和链接选项<br>  [Pcd]：Pcd 全称为平台配置数据库（Platform Conf iguration Database）。<br>  [Pcd]：用于列出本模块用到的Pcd 变量，这些Pcd 变量可被整个UEFI 系统访问<br>  [PcdEx]：用于列出本模块用到的Pcd 变量，这些Pcd 变量可被整个UEFI 系统访问<br>  [FixedPcd]：用于列出本模块用到的Pcd 编译期常量<br>  [FeaturePcd]：用于列出本模块用到的Pcd 常量<br>  [PatchPcd]：列出的Pcd 变量仅本模块可用</p>
+</li>
+<li><h4 id="dsc-文件"><a href="#dsc-文件" class="headerlink" title=".dsc 文件"></a>.dsc 文件</h4><p>  .inf 用于编译一个模块， 而.dsc 文件用于编译一个Package， 它包含了[Defines]、[LibraryClasses]、[Components] 几个必需部分以及[PCD]、[BuildOptions] 等几个可选部分。</p>
+</li>
+<li><h4 id="dec-文件"><a href="#dec-文件" class="headerlink" title=".dec 文件"></a>.dec 文件</h4><p>  .dec 文件定义了公开的数据和接口，供其他模块使用。它包含了必需区块[Defines] 以及可选区块[Includes]、[LibraryClasses]、[Guids]、[Protocols]、[Ppis] 和[PCD] 几个部分。<br>  .dec文件需要被调用模块.inf文件所包含。</p>
+</li>
+</ul>
+</li>
+<li><p>编写代码</p>
+<ul>
+<li>HelloWorld.c</li>
+</ul>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;Uefi.h&gt;</span><br><span class="line">#include &lt;Library/UefiApplicationEntryPoint.h&gt;</span><br><span class="line">#include &lt;Library/UefiLib.h&gt;</span><br><span class="line">#include &lt;Library/UefiBootServicesTableLib.h&gt;</span><br><span class="line"></span><br><span class="line">EFI_STATUS</span><br><span class="line">EFIAPI</span><br><span class="line">UefiUnload(</span><br><span class="line">    IN EFI_HANDLE ImageHandle</span><br><span class="line">)</span><br><span class="line">&#123;</span><br><span class="line">    return EFI_SUCCESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">EFI_STATUS</span><br><span class="line">EFIAPI</span><br><span class="line">UefiMain (</span><br><span class="line">    IN EFI_HANDLE        ImageHandle,</span><br><span class="line">    IN EFI_SYSTEM_TABLE  *SystemTable</span><br><span class="line">)</span><br><span class="line">&#123;</span><br><span class="line">    // CpuBreakpoint();</span><br><span class="line">    Print(L&quot;Hello World!\n&quot;);</span><br><span class="line">    return EFI_SUCCESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>HelloWorld.inf</li>
+</ul>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">## @file</span><br><span class="line">#  Brief Description of UEFI MyHelloWorld</span><br><span class="line">#  </span><br><span class="line">#  Detailed Description of UEFI MyWizardDriver</span><br><span class="line">#</span><br><span class="line">#  Copyright for UEFI  MyHelloWorld</span><br><span class="line">#  </span><br><span class="line">#  License for UEFI  MyHelloWorld</span><br><span class="line">#  </span><br><span class="line">##</span><br><span class="line"></span><br><span class="line">[Defines]</span><br><span class="line">INF_VERSION                    = 1.25</span><br><span class="line">BASE_NAME                      = TestMyModule</span><br><span class="line">FILE_GUID                      = c7ccf3e5-2c4f-4a6e-87c7-c0699e4f0322 # https://www.guidgen.com/ 生成</span><br><span class="line">MODULE_TYPE                    = UEFI_APPLICATION</span><br><span class="line">VERSION_STRING                 = 1.0</span><br><span class="line">ENTRY_POINT                    = UefiMain</span><br><span class="line">#</span><br><span class="line"># The following information is for reference only and not required by the build tools.</span><br><span class="line">#</span><br><span class="line">#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC Etc...</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">[Sources]</span><br><span class="line">    HelloWorld.c</span><br><span class="line"></span><br><span class="line">[Packages]</span><br><span class="line">    MdePkg/MdePkg.dec</span><br><span class="line">    MdeModulePkg/MdeModulePkg.dec</span><br><span class="line"></span><br><span class="line">[LibraryClasses]</span><br><span class="line">    UefiApplicationEntryPoint</span><br><span class="line">    UefiLib</span><br><span class="line"></span><br><span class="line">[Guids]</span><br><span class="line"></span><br><span class="line">[Ppis]</span><br><span class="line"></span><br><span class="line">[Protocols]</span><br><span class="line"></span><br><span class="line">[FeaturePcd]</span><br><span class="line"></span><br><span class="line">[Pcd]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>HelloWorldPkg.dsc</li>
+</ul>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[Defines]</span><br><span class="line">    PLATFORM_NAME                  = HelloWorldPkg</span><br><span class="line">    PLATFORM_GUID                  = 005aaa17-967e-4b9f-8ed0-f7a899c495ca</span><br><span class="line">    PLATFORM_VERSION               = 0.98</span><br><span class="line">    DSC_SPECIFICATION              = 0x00010005</span><br><span class="line">    OUTPUT_DIRECTORY               = Build/HelloWorldPkg</span><br><span class="line">    SUPPORTED_ARCHITECTURES        = IA32|X64|EBC|AARCH64|RISCV64|LOONGARCH64</span><br><span class="line">    BUILD_TARGETS                  = DEBUG|RELEASE|NOOPT</span><br><span class="line">    SKUID_IDENTIFIER               = DEFAULT</span><br><span class="line"></span><br><span class="line">!include MdePkg/MdeLibs.dsc.inc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[LibraryClasses]</span><br><span class="line">    UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf</span><br><span class="line">    UefiDriverEntryPoint|MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf</span><br><span class="line">    UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf</span><br><span class="line">    UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf</span><br><span class="line">    UefiRuntimeLib|MdePkg/Library/UefiRuntimeLib/UefiRuntimeLib.inf</span><br><span class="line">    UefiLib|MdePkg/Library/UefiLib/UefiLib.inf</span><br><span class="line">    PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf</span><br><span class="line">    RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf</span><br><span class="line">    CcProbeLib|MdePkg/Library/CcProbeLibNull/CcProbeLibNull.inf</span><br><span class="line">    TdxLib|MdePkg/Library/TdxLib/TdxLib.inf</span><br><span class="line">    BaseLib|MdePkg/Library/BaseLib/BaseLib.inf</span><br><span class="line">    BaseMemoryLib|MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf</span><br><span class="line">    PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf</span><br><span class="line">    DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf</span><br><span class="line">    MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf</span><br><span class="line">    IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsicSev.inf</span><br><span class="line">    SerialPortLib|PcAtChipsetPkg/Library/SerialIoLib/SerialIoLib.inf</span><br><span class="line">    DebugLib|MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf</span><br><span class="line">    DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf</span><br><span class="line"></span><br><span class="line">[Components]</span><br><span class="line">    HelloWorldPkg/HelloWorld.inf</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>编译并验证<br> <code>build -b RELEASE -a X64 -p .\HelloWorldPkg\HelloWorldPkg.dsc</code><br> <img src="/2025/12/24/UEFI学习f.png" alt="f"><br> 使用qemu 进行验证<br> <code>qemu-system-x86_64.exe -bios .\OVMF.fd -drive file=fat:rw:D:\work\project\uefi\UEFIWorkspace\edk2\Build\HelloWorldPkg\RELEASE_VS2022\X64,format=raw</code><br> <img src="/2025/12/24/UEFI学习g.png" alt="g"></p>
+</li>
+<li><p>调试<br> 使用ida 的gdb 和qemu 对efi 进行调试，以上面的HelloWorld 为例，修改一下源码</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;Uefi.h&gt;</span><br><span class="line">#include &lt;Library/UefiApplicationEntryPoint.h&gt;</span><br><span class="line">#include &lt;Library/UefiLib.h&gt;</span><br><span class="line">#include &lt;Library/UefiBootServicesTableLib.h&gt;</span><br><span class="line"></span><br><span class="line">EFI_STATUS</span><br><span class="line">EFIAPI</span><br><span class="line">UefiUnload(</span><br><span class="line">    IN EFI_HANDLE ImageHandle</span><br><span class="line">)</span><br><span class="line">&#123;</span><br><span class="line">    return EFI_SUCCESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">EFI_STATUS</span><br><span class="line">EFIAPI</span><br><span class="line">UefiMain (</span><br><span class="line">    IN EFI_HANDLE        ImageHandle,</span><br><span class="line">    IN EFI_SYSTEM_TABLE  *SystemTable</span><br><span class="line">)</span><br><span class="line">&#123;</span><br><span class="line">    CpuBreakpoint(); // 断下</span><br><span class="line">    Print(L&quot;Hello World!\n&quot;);</span><br><span class="line">    return EFI_SUCCESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> 编译Debug后使用ida 打开<br> <img src="/2025/12/24/UEFI学习h.png" alt="h"><br> 配置ida gdb 设置，设置端口为1234（qemu 默认调试端口）<br> <img src="/2025/12/24/UEFI学习i.png" alt="i"><br> qemu 开启调试并输出调试日志<br> <code>emu-system-x86_64.exe -bios .\OVMF.fd -drive file=fat:rw:D:\work\project\uefi\UEFIWorkspace\edk2\Build\HelloWorldPkg\DEBUG_VS2022\X64,format=raw -s -debugcon file:debug.log -global isa-debugcon.iobase=0x402</code><br> 运行HelloWorld.efi 会断下，使用ida 附加调试<br> <img src="/2025/12/24/UEFI学习j.png" alt="j"><br> 查看输出日志debug.log 中找到base<br> <img src="/2025/12/24/UEFI学习k.png" alt="k"><br> 跳出断点后（修改rax和rcx 值不一致即可）修改ida 中base地址<br> <img src="/2025/12/24/UEFI学习l.png" alt="l"></p>
+</li>
+</ol>
+<h3 id="Voyager"><a href="#Voyager" class="headerlink" title="Voyager"></a>Voyager</h3><p><a target="_blank" rel="noopener" href="https://blog.back.engineering/20/04/2021/">Voyager</a>是在基于UEFI的Windows 系统上对Hyper-V 进行vmexit_handle 进行劫持而实现的框架。</p>
+<h4 id="VisualUefi"><a href="#VisualUefi" class="headerlink" title="VisualUefi"></a>VisualUefi</h4><p><a target="_blank" rel="noopener" href="https://github.com/ionescu007/VisualUefi">VisualUefi</a> 旨在edk2 支持Visual Studio 开发环境而进行的修改。</p>
+<ul>
+<li><p>clone : <code> git clone --recursive https://github.com/ionescu007/VisualUefi.git</code></p>
+</li>
+<li><p>编译</p>
+</li>
+</ul>
+<h4 id="Voyager-1"><a href="#Voyager-1" class="headerlink" title="Voyager"></a>Voyager</h4><ul>
+<li><p>clone : <code>git clone https://github.com/backengineering/Voyager.git</code><br>编译成功后，将产物复制到对应版本的系统上（这里以1903 版本win10 为例），然后将Voyager.efi 重命名为bootmgfw.efi，PayLoad (Intel).dll 重命名为payload.dll，管理员运行launch.bat，然后等待重启完成。<br><img src="/2025/12/24/UEFI学习m.png" alt="m"></p>
+</li>
+<li><p>调试Voyager<br>这里我使用vmware + IDA 进行调试<br>修改vmx</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">debugStub.listen.guest64 = &quot;TRUE&quot;</span><br><span class="line">debugStub.hideBreakpoints = &quot;TRUE&quot;</span><br><span class="line">debugStub.listen.guest64.remote = &quot;TRUE&quot;</span><br><span class="line">monitor.debugOnStartGuest64 = &quot;TRUE&quot;</span><br></pre></td></tr></table></figure>
+<p>因为有源码，所以可以在入口点通过<code>CpuDeadLoop();</code> 或者<code>CpuBreakpoint();</code>，然后添加代码实现打印efl 模块base</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">EFI_LOADED_IMAGE_PROTOCOL* LoadedImage;</span><br><span class="line">Result = gBS-&gt;HandleProtocol(</span><br><span class="line">    ImageHandle,</span><br><span class="line">    &amp;gEfiLoadedImageProtocolGuid,</span><br><span class="line">    (VOID**)&amp;LoadedImage</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">if (EFI_ERROR(Result)) &#123;</span><br><span class="line">    Print(L&quot;错误：无法获取 LoadedImage 协议 - %r\n&quot;, Result);</span><br><span class="line">    return Result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 2. 成功获取协议后，LoadedImage-&gt;ImageBase 就是当前模块的基地址</span><br><span class="line">Print(L&quot;Base Image: 0x%lx\n&quot;, (UINT64)LoadedImage-&gt;ImageBase);</span><br></pre></td></tr></table></figure>
+<p>这样在断下后就可以在ida 中修改base<br><img src="/2025/12/24/UEFI学习n.png" alt="n"></p>
+<p><em>注意：CpuBreakpoint() 在vmware 中测试发现会出现启动虚拟机失败</em></p>
+<p>然后断下后patch <code>CpuDeadLoop()</code>跳出循环，然后就可以进行调试。<br><img src="/2025/12/24/UEFI学习o.png" alt="o"></p>
+<ul>
+<li>使用WinDbg + Exdi + VmWare 进行调试<br>对ida gdb 调试不熟悉的情况下，可以尝试这种方式，由于Vmware 的uefi 固件设计和Qemu 的存在不同，所以相应的设置也会有些区别。</li>
+</ul>
+<p>首先VmWare 配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">debugStub.listen.guest64 = &quot;TRUE&quot;</span><br><span class="line">debugStub.hideBreakpoints = &quot;TRUE&quot;</span><br></pre></td></tr></table></figure>
+<p>开启gdb 调试端口（8864&#x2F;8832）<br>WinDbg 配置<br><img src="/2025/12/24/UEFI学习p.png" alt="alt text"><br>附加调试后是没加载pdb 的，执行命令<br><code>.reload /f /i Voyager.efi=&lt;base&gt;,&lt;size&gt;</code><br>然后就可以使用windbg 进行调试<br><img src="/2025/12/24/UEFI学习q.png" alt="alt text"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/tutuj12138">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UEFI-%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">UEFI 学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UEFI%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">UEFI简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EDK2"><span class="toc-number">1.2.</span> <span class="toc-text">EDK2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EDK2-%E7%BC%96%E8%AF%91"><span class="toc-number">1.2.1.</span> <span class="toc-text">EDK2 编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EDK2-%E5%BC%80%E5%8F%91"><span class="toc-number">1.2.2.</span> <span class="toc-text">EDK2 开发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#inf-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">.inf 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dsc-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">.dsc 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dec-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">.dec 文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Voyager"><span class="toc-number">1.2.3.</span> <span class="toc-text">Voyager</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VisualUefi"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">VisualUefi</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Voyager-1"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">Voyager</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&text=UEFI学习"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&is_video=false&description=UEFI学习"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=UEFI学习&body=Check out this article: http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&title=UEFI学习"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&name=UEFI学习&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/12/24/UEFI%E5%AD%A6%E4%B9%A0/&t=UEFI学习"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    tutuj
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/tutuj12138">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
